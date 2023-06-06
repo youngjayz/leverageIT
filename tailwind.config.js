@@ -21,6 +21,7 @@ module.exports = {
         green: "#54cf7f",
         darkGreen: "#4A735F",
         buttongreen: "#80E6AF",
+        textGreen: "#00FF00",
       },
     },
   },

@@ -4,7 +4,7 @@ import { styles } from "../styles";
 import { coins } from "../data";
 import {  SearchNormal1 } from "iconsax-react";
 
-const Sidebar = () => {
+const Sidebar = ({setPage}) => {
   const navigate = useNavigate();
 
   const location = window.location.pathname;

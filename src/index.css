@@ -207,6 +207,29 @@ input:checked + .slider:before {
 .tables2{
     padding: 0px 6px 4px 6px   
 }
+.tables3{
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-left: 1px #00808061 solid;
+    border-bottom: 1px #00808061 solid;
+}
+
+td.tables3{
+    font-size: 12px;
+    padding: 14px;
+}
+
+.tables3:first-child{
+    border-left: none;
+}
+
+.no-botrow:last-child td{
+    border-bottom: none;
+    
+}
 
 th.tables2{
     padding: 0px 6px 4px 6px;

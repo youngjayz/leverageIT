@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styles } from "../styles";
 import Navbar from "./Navbar";
 import homeEth from "../assets/homeEth.svg";
@@ -6,10 +6,15 @@ import hatGuy from '../assets/HatGuy.svg'
 import brain from '../assets/brain.svg'
 import { Icon } from "@iconify/react";
 
-const Home = () => {
+const Home = ({ setPage, page }) => {
+
+  useEffect(() => { 
+    setPage("Home")
+  })
+
   return (
     <div className={`${styles.container}`}>
-      <Navbar />
+      <Navbar page={page} />
       <div className="w-full">
         {/* THE OUTER DIV THAT FORMS THE BORDER */}
         <div className="w-full border-grad p-[3px] rounded-[24px]">
