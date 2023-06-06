@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styles } from "../styles";
 import { coins } from "../data";
-import {  SearchNormal1 } from "iconsax-react";
+import { SearchNormal1 } from "iconsax-react";
 
-const Sidebar = () => {
+const Sidebar = ({ setPage }) => {
   const navigate = useNavigate();
 
   const location = window.location.pathname;
@@ -71,7 +71,9 @@ const Sidebar = () => {
                       ${item.price}
                     </p>
                     {parseFloat(item.percent) > 0.3 ? (
-                      <span className="text-xs text-green">+{item.percent}%</span>
+                      <span className="text-xs text-green">
+                        +{item.percent}%
+                      </span>
                     ) : (
                       <span className="text-xs text-red">-{item.percent}%</span>
                     )}
@@ -82,7 +84,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <p
+      {/* <p
         onClick={() => {
           navigate("/stake");
         }}
@@ -91,7 +93,7 @@ const Sidebar = () => {
         }`}
       >
         Stake
-      </p>
+      </p> */}
 
       <p
         onClick={() => {
@@ -115,7 +117,7 @@ const Sidebar = () => {
         Copytrading
       </p>
 
-      <p
+      {/* <p
         onClick={() => {
           navigate("/leaderboard");
         }}
@@ -124,9 +126,9 @@ const Sidebar = () => {
         }`}
       >
         Leaderboard
-      </p>
+      </p> */}
 
-      <p
+      {/* <p
         onClick={() => {
           navigate("/trading-bot");
         }}
@@ -135,9 +137,9 @@ const Sidebar = () => {
         }`}
       >
         AI Trading Bot
-      </p>
+      </p> */}
 
-      <p
+      {/* <p
         onClick={() => {
           navigate("/nft-marketplace");
         }}
@@ -146,7 +148,7 @@ const Sidebar = () => {
         }`}
       >
         NFT Marketplace
-      </p>
+      </p> */}
     </div>
   );
 };

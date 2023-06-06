@@ -1,5 +1,5 @@
 import React from "react";
-import cogWheel from "../assets/cogWheel.svg";
+import cogWheel from "../assets/cogWheel.svg"; 
 import { Icon } from "@iconify/react";
 
 const Navbar = ({page}) => {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { styles } from "../styles";
-import { ArrowRight, Bitcoin, Glass, Setting2, Tether } from "iconsax-react";
+import { ArrowDown, ArrowRight, Bitcoin, Glass, Tether } from "iconsax-react";
 import TradingViewWidget from "./TradingView";
 import { Icon } from "@iconify/react";
 import axios from "axios";
+import { coins } from "../data";
 
 const API_URL = "https://papertrade-1-m4693083.deta.app";
 const TradeNav = () => {
@@ -76,6 +77,26 @@ const Trade = () => {
     getCurrentPositions();
   }, []);
 
+
+  const [position, setPosition] = useState("long");
+  const [positionTwo, setPositionTwo] = useState("position");
+  const [marketDrop, setMarketDrop] =  useState(false)
+  const [coinDrop, setCoinDrop] = useState(false)
+  const [coin, setCoin] = useState("BTC")
+  const [market, setMarket] = useState("")
+  
+  
+
+
+
+  const toggleMarket = () => {
+    setMarketDrop(!marketDrop)
+  }
+ 
+  const toggleCoin = () => {
+    setCoinDrop(!coinDrop)
+  }
+  
   return (
     <div className={styles.container1}>
       {/* <Navbar /> */}
@@ -116,10 +137,24 @@ const Trade = () => {
           <div className="bg-sidebar rounded-[12px] w-full overflow-hidden flex flex-col items-center">
             {/* SWITCH */}
             <div className="w-full p-4 flex items-center justify-between">
-              <button className="bg-buttongreen cursor-pointer rounded-full w-[48%] text-xs py-1 text-medium">
+              <button
+                onClick={() => {
+                  setPosition("long");
+                }}
+                className={
+                  position === "long" ? styles.longBtn : styles.notLongBtn
+                }
+              >
                 Long
               </button>
-              <button className="text-gray-400 cursor-pointer rounded-full w-[48%] text-xs py-1 text-medium">
+              <button
+                onClick={() => {
+                  setPosition("short");
+                }}
+                className={
+                  position === "short" ? styles.longBtn : styles.notLongBtn
+                }
+              >
                 Short
               </button>
             </div>
@@ -139,12 +174,40 @@ const Trade = () => {
 
                   <div className="w-1/2 flex flex-col items-start font-DM">
                     <label className="text-xs mb-2">Order Type</label>
-                    <div className="text-gray-600 border-input border rounded-full w-full placeholder:text-inputText text-sm px-2 py-1 relative ">
+                    <div
+                      onClick={toggleMarket}
+                      className="text-gray-600 cursor-pointer border-input border rounded-full w-full placeholder:text-inputText text-sm px-2 py-1 relative "
+                    >
                       <input
                         type="text"
                         placeholder="Markets"
-                        className="text-inputText placeholder:text-inputText"
+                        className="text-inputText pointer-events-none placeholder:text-inputText"
+                        disabled
+                        value={market}
                       />
+
+                      <ArrowDown
+                        color="#42424262"
+                        size="20"
+                        className="absolute top-1/2 right-2 transform -translate-y-1/2"
+                      />
+
+                      {/* THE DROP DOWN */}
+                      <div
+                        className={
+                          marketDrop === true ? "drop-open" : "drop-close"
+                        }
+                      >
+                        {coins.map((item) => (
+                          <p
+                            onClick={() => {
+                              setMarket(item.code);
+                            }}
+                          >
+                            {item.code}
+                          </p>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -152,16 +215,41 @@ const Trade = () => {
                 <div className="w-full flex flex-col items-start mt-8 font-DM text-gray-300">
                   <label className="text-xs mb-2">Amount</label>
                   <div className="w-full flex flex-col">
-                    <div className="flex items-center gap-2 border-input border rounded-tr-2xl rounded-tl-2xl px-2 py-1  ">
+                    <div
+                      onClick={toggleCoin}
+                      className="relative cursor-pointer flex items-center gap-2 border-input border rounded-tr-2xl rounded-tl-2xl px-2 py-1  "
+                    >
                       {/* DIV FOR THE ICON AND THE TEXT */}
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 pointer-events-none">
                         <Bitcoin variant="Bold" color="#f7931a" size="16" />
                         <p className="text-xs text-inputText font-medium">
-                          BTC
+                          {coin}
                         </p>
                       </div>
                       {/* THE MAIN INPUT FIELD */}
-                      <input type="number" className="w-full" />
+                      <input
+                        type="number"
+                        disabled
+                        className="w-full text-sm pointer-events-none"
+                        value={coin}
+                      />
+
+                      {/* THE DROP DOWN */}
+                      <div
+                        className={
+                          coinDrop === true ? "drop-open" : "drop-close"
+                        }
+                      >
+                        {coins.map((item) => (
+                          <p
+                            onClick={() => {
+                              setCoin(item.code);
+                            }}
+                          >
+                            {item.code}
+                          </p>
+                        ))}
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 border-input border rounded-br-2xl rounded-bl-2xl px-2 py-1  ">
                       {/* DIV FOR THE ICON AND THE TEXT */}
@@ -195,9 +283,11 @@ const Trade = () => {
                     className="transform -rotate-45"
                   />
                 </div>
-                <p className="text-sm font-medium">Confirm Long</p>
+                <p className="text-sm font-medium">
+                  Confirm {position === "long" ? "Long" : "Short"}
+                </p>
               </button>
-              <Setting2 size="20" className="text-gray-300" />
+              {/* <Setting2 size="20" className="text-gray-300" /> */}
             </div>
           </div>
         </div>
@@ -209,14 +299,28 @@ const Trade = () => {
           <div className="bg-sidebar rounded-[22px] w-full overflow-hidden">
             <div className="w-full p-[2px] flex items0center justify-between  ">
               {/* THE POSITION AND ORDERS */}
-              <div className=" p-4 flex items-center gap-2 justify-between font-DM">
-                <button className="bg-gray-300 cursor-pointer whitespace-nowrap rounded-full w-[48%] text-xs font-medium text-sidebar px-2 py-1">
+              <div className="p-4 flex items-center gap-2 justify-between font-DM">
+                <button
+                  onClick={() => {
+                    setPositionTwo("position");
+                  }}
+                  className={
+                    positionTwo === "position"
+                      ? styles.isNotFills
+                      : styles.isFills
+                  }
+                >
                   Position
                 </button>
-                <button className="text-gray-400 cursor-pointer whitespace-nowrap rounded-full w-[48%] text-xs px-2 py-1 text-medium">
-                  Limit Orders
-                </button>
-                <button className="text-gray-400 cursor-pointer rounded-full w-[48%] text-xs px-2 py-1 text-medium">
+
+                <button
+                  onClick={() => {
+                    setPositionTwo("fills");
+                  }}
+                  className={
+                    positionTwo === "fills" ? styles.isNotFills : styles.isFills
+                  }
+                >
                   Fills
                 </button>
               </div>

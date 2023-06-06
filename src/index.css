@@ -207,6 +207,29 @@ input:checked + .slider:before {
 .tables2{
     padding: 0px 6px 4px 6px   
 }
+.tables3{
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-left: 1px #00808061 solid;
+    border-bottom: 1px #00808061 solid;
+}
+
+td.tables3{
+    font-size: 12px;
+    padding: 14px;
+}
+
+.tables3:first-child{
+    border-left: none;
+}
+
+.no-botrow:last-child td{
+    border-bottom: none;
+    
+}
 
 th.tables2{
     padding: 0px 6px 4px 6px;
@@ -216,4 +239,75 @@ th.tables2{
 .tables-body{
  padding: 8px 6px;
  border-top: 1px #42424262 solid
+}
+
+.drop-open{
+    position: absolute;
+    top:100%;
+    right: 0%;
+    height: 100px;
+    width: 100%;
+    background: #1d1d1d;
+    border: 1px #42424262 solid;
+    display: flex;
+    flex-direction: column;
+    transition: .2s ease-in-out;
+    overflow-y : scroll;
+    border-radius: 10px;
+    z-index: 20;
+}
+
+.drop-close{
+    position: absolute;
+    top:100%;
+    right: 0%;
+    height: 0px;
+    width: 100%;
+    background: #1d1d1d;
+    border: 0px #42424262 solid;
+    display: flex;
+    flex-direction: column;
+    transition: .2s ease-in-out;
+    overflow-y : scroll;
+    border-radius: 10px;
+}
+
+.drop-open::-webkit-scrollbar{
+    width: 8px;
+}
+
+.drop-close::-webkit-scrollbar{
+    width: 8px;
+}
+
+.drop-open::-webkit-scrollbar-thumb{
+    background: #1d1d1d;
+    border: 1px #42424262 solid;
+    border-radius: 50px;
+}
+
+.drop-open p{
+    font-size: 14px;
+    padding: .4rem;
+    cursor: pointer;
+    color: #424242;
+    transition: .2s ease-in-out
+}
+
+.drop-close p{
+    font-size: 14px;
+    padding: .4rem;
+    cursor: pointer;
+    color: #424242;
+    transition: .2s ease-in-out
+}
+
+.drop-open p:hover{
+    background: #424242;
+    color: #aaa;
+}
+
+.drop-open p:active{
+    background: #42424262;
+    color: #aaa;
 }
