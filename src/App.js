@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+// import { useState } from 'react';
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+
+
 
 function App() {
+
+  // const [routes, setRoutes] = useState("")
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div >
+      <Routes>
+        <Route path="/" element={<Dashboard/>} />
+        <Route path="/trade" element={<Dashboard/>} />
+        <Route path="/stake" element={<Dashboard/>} />
+        <Route path="/dash" element={<Dashboard/>} />
+        <Route path="/copytrading" element={<Dashboard/>} />
+        <Route path="/leaderboard" element={<Dashboard/>} />
+        <Route path="/trading-bot" element={<Dashboard/>} />
+        <Route path="/nft-marketplace" element={<Dashboard/>} />
+      </Routes>
     </div>
   );
 }
 
 export default App;
+ 

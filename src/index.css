@@ -1,13 +1,219 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+input{
+    background: transparent;
+
+}
+
+input:focus{
+    outline: none;
+}
+
+.border-grad{
+    background: linear-gradient(to right, #64C7E3,  #008080 );
+}
+
+.border-grad-vert{
+    background: linear-gradient(to top, #64C7E3,  #008080 );
+}
+
+.button-grad{
+    background: linear-gradient(to right, #64C7E3,  #3DAFCD );
+    /* color: #008080 */
+}
+
+.scroll-y{
+    overflow-y: scroll
+}
+
+.scroll-y::-webkit-scrollbar{
+    width: 8px;
+}
+
+.scroll-y::-webkit-scrollbar-thumb{
+    background: #1d1d1d;
+    border: 1px #42424262 solid;
+    border-radius: 50px;
+}
+
+.trade{
+    border-top: 2px #42424262 solid;
+    padding: 1rem 0 0 0;
+    animation: .6s borderize;
+}
+
+.trade-drop{
+    width: 100%;
+    margin: auto;
+    /* background: #4242422d; */
+    height: 300px;
+    border-bottom: 2px #42424262 solid;
+    animation: .6s grow ;
+    overflow-y: scroll;
+}
+
+.trade-drop::-webkit-scrollbar{
+    width: 8px;
+}
+
+.trade-drop::-webkit-scrollbar-thumb{
+    background: #1d1d1d;
+    border: 1px #42424262 solid;
+    border-radius: 50px;
+}
+
+.trade-drop-close{
+    width: 100%;
+    margin: auto;
+    /* background: #4242422d; */
+    height: 0px;
+    border-bottom: 0px #42424262 solid;
+    animation: .6s shrink ;
+    overflow: hidden; 
+}
+
+input[type="range"]{
+    -webkit-appearance: none;
+    background: linear-gradient(to right, #64C7E3,  #008080 );
+}
+
+.my-range{
+    height: 3px;
+    background: yellow;
+}
+
+
+.my-range::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    background-image: linear-gradient(to right, #64C7E3,  #008080 ) ;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    /* position: absolute; */
+}
+
+
+@keyframes grow {
+    from{
+        height: 0px;
+        border-bottom: 0px #42424262 solid;
+    }
+    to{
+        height:300px;
+        border-bottom: 2px #42424262 solid;
+    }
+}
+
+@keyframes shrink {
+    from{
+        height: 300px;
+        border-bottom: 2px #42424262 solid;
+    }
+    to{
+        height:0px;
+        border-bottom: 0px #42424262 solid;
+    }
+}
+
+@keyframes borderize {
+    from{
+        border-top: 0px #42424262 solid;
+        padding: 0rem 0 0 0;
+    }
+    to{
+        padding: 1rem 0 0 0;
+        border-top: 2px #42424262 solid;
+    }
+}
+
+
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 26px;
+  height: 16px;
+    cursor: pointer;
+}
+
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 200px;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translate(10px, -50%);
+  -ms-transform: translate(10px, -50%);
+  transform: translate(10px, -50%);
+}
+
+
+.tables{
+ padding: 4px 6px   
+}
+
+.tables1{
+ padding: 4px 6px 0 6px   
+}
+
+.tables2{
+    padding: 0px 6px 4px 6px   
+}
+
+th.tables2{
+    padding: 0px 6px 4px 6px;
+    text-align: left;   
+}
+
+.tables-body{
+ padding: 8px 6px;
+ border-top: 1px #42424262 solid
 }

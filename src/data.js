@@ -1,0 +1,95 @@
+import { Icon } from "@iconify/react";
+import { Bitcoin, EthereumClassic } from "iconsax-react";
+
+const coins = [
+  {
+    id: 1,
+    name: "Bitcoin",
+    code: "BTC",
+    icon: <Bitcoin size="20" color="#f7931a" variant="Bold" />,
+    price: "23,456",
+    percent: 0.37,
+  },
+  {
+    id: 2,
+    name: "Ethereum",
+    code: "ETH",
+    icon: <EthereumClassic size="20" color="#637eea" variant="Bold" />,
+    price: "2,456",
+    percent: 0.28,
+  },
+  {
+    id: 3,
+    name: "Doge",
+    code: "DOGE",
+    icon: <Icon icon="cryptocurrency-color:doge" />,
+    price: "3,456",
+    percent: 0.54,
+  },
+  {
+    id: 4,
+    name: "A Ave",
+    code: "AAVE",
+    icon: <Icon icon="cryptocurrency-color:aave" />,
+    price: "456",
+    percent: 0.33,
+  },
+  {
+    id: 5,
+    name: "Shib",
+    code: "SHIB",
+    icon: <Icon icon="emojione:letter-s" />,
+    price: "0.00056",
+    percent: 0.46,
+  },
+  {
+    id: 6,
+    name: "Floki",
+    code: "FLOKI",
+    icon: <Icon icon="emojione:letter-f" />,
+    price: "2.456",
+    percent: 0.52,
+  },
+  {
+    id: 7,
+    name: "DogElon",
+    code: "DOGELON",
+    icon: <Icon icon="emojione:letter-d" />,
+    price: "56.00",
+    percent: 0.19,
+  },
+  {
+    id: 8,
+    name: "Bone",
+    code: "BONE",
+    icon: <Icon icon="emojione:letter-b" />,
+    price: "15,256",
+    percent: 0.23,
+  },
+  {
+    id: 9,
+    name: "Tether",
+    code: "USDT",
+    icon: <Icon icon="cryptocurrency-color:usdt" />,
+    price: "2,600",
+    percent: 0.12,
+  },
+  {
+    id: 10,
+    name: "Satoshi",
+    code: "SAT",
+    icon: <Icon icon="emojione:letter-s" />,
+    price: "18,760",
+    percent: 0.27,
+  },
+  {
+    id: 11,
+    name: "XRP",
+    code: "XRP",
+    icon: <Icon icon="cryptocurrency-color:xrp" />,
+    price: "26.00",
+    percent: 0.18,
+  },
+];
+
+export { coins };
