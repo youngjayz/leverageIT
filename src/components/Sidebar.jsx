@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { styles } from "../styles";
 import { coins } from "../data";
 import { SearchNormal1 } from "iconsax-react";
+import { GlobalContext } from "../context";
 
 const Sidebar = ({ setPage }) => {
   const navigate = useNavigate();
+  const { setSymbol } = useContext(GlobalContext);
 
   const location = window.location.pathname;
   const [openTrade, setOpenTrade] = useState(false);
@@ -63,7 +65,10 @@ const Sidebar = ({ setPage }) => {
 
             {coins &&
               coins.map((item) => (
-                <div className="w-full flex items-center hover:bg-input rounded-xl gap-2 p-2">
+                <div
+                  className="w-full flex items-center hover:bg-input rounded-xl gap-2 p-2 cursor-pointer"
+                  onClick={() => setSymbol(item.symbol)}
+                >
                   {item.icon}
                   <h4 className={styles.tradeCoin}>{item.code}</h4>
                   <div className="flex flex-col items-end gap">
