@@ -2,16 +2,15 @@ import React, { useEffect } from "react";
 import { styles } from "../styles";
 import Navbar from "./Navbar";
 import homeEth from "../assets/homeEth.svg";
-import hatGuy from '../assets/HatGuy.svg'
-import brain from '../assets/brain.svg'
+import hatGuy from "../assets/HatGuy.svg";
+import brain from "../assets/brain.svg";
 import { Icon } from "@iconify/react";
-import handCoin from '../assets/handCoin.svg'
+import handCoin from "../assets/handCoin.svg";
 
 const Home = ({ setPage, page }) => {
-
-  useEffect(() => { 
-    setPage("Home")
-  })
+  useEffect(() => {
+    setPage("Home");
+  });
 
   return (
     <div className={`${styles.container}`}>
@@ -55,8 +54,8 @@ const Home = ({ setPage, page }) => {
                   activity are private
                 </p>
                 <button className="button-grad rounded-full flex items-center gap-2 mt-2 px-2 py-1 ">
-                  <p>Trade Anonymously now</p>
-                  <Icon icon="mdi:arrow-right-thin" className="text-xl" />
+                  <p>Coming Soon</p>
+                  {/* <Icon icon="mdi:arrow-right-thin" className="text-xl" /> */}
                 </button>
               </div>
               {/* ICON PART */}
@@ -79,7 +78,7 @@ const Home = ({ setPage, page }) => {
                   activity are private
                 </p>
                 <button className="button-grad rounded-full flex items-center gap-4 mt-2 px-10 py-1 ">
-                  <p>Try Now</p>
+                  <p>Coming Soon</p>
                 </button>
               </div>
               {/* ICON PART */}
@@ -106,7 +105,7 @@ const Home = ({ setPage, page }) => {
               <img src={handCoin} alt="hatguy.svg" />
             </div>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   );
