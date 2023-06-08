@@ -21,6 +21,14 @@ input:focus{
     background: linear-gradient(to right, #64C7E3,  #008080 );
 }
 
+.border-grad-trade{
+    background: linear-gradient(to right, #64C7E3,  #008080 );
+}
+
+.border-grad-trade2{
+    background: linear-gradient(to right, #64C7E3,  #008080 );
+}
+
 .border-grad-vert{
     background: linear-gradient(to top, #64C7E3,  #008080 );
 }
@@ -28,6 +36,20 @@ input:focus{
 .button-grad{
     background: linear-gradient(to right, #64C7E3,  #3DAFCD );
     /* color: #008080 */
+}
+
+.scroll-x{
+    overflow-y: scroll
+}
+
+.scroll-x::-webkit-scrollbar{
+    width: 8px;
+}
+
+.scroll-x::-webkit-scrollbar-thumb{
+    background: #1d1d1d;
+    border: 1px #42424262 solid;
+    border-radius: 50px;
 }
 
 .scroll-y{
@@ -42,6 +64,41 @@ input:focus{
     background: #1d1d1d;
     border: 1px #42424262 solid;
     border-radius: 50px;
+}
+
+
+.scroll-yy{
+    overflow-y: scroll
+}
+
+.scroll-yy::-webkit-scrollbar{
+    width: 8px;
+}
+
+.scroll-yy::-webkit-scrollbar-thumb{
+    background: #1d1d1d;
+    border: 1px #42424262 solid;
+    border-radius: 50px;
+}
+
+@media(max-width:660px){
+    .scroll-yy{
+        overflow-y: visible;
+    }
+    .border-grad-trade{
+        background: none;
+        width: 100%;
+        height: 100vh;
+    }
+
+    .border-grad-trade2{
+        background: none;
+        width: 100%;
+    }
+    .tables3{
+        min-width: 100px;
+        overflow: hidden
+    }
 }
 
 .trade{

@@ -14,26 +14,20 @@ const Dash = ({ page, setPage }) => {
     <div className={styles.container}>
       <Navbar page={page} />
 
-      <div className="w-full border-grad h-[46vh] p-[3px] rounded-[24px]">
+      <div className="w-full border-grad h-fit lg:h-[46vh]  p-[3px] rounded-[24px]">
         <div className="w-full h-full flex items-center justify-between rounded-[22px] bg-sidebar">
           <div className="chart-img w-full h-full relative overflow-hidden">
-            {/* THE IMAGE PLASEC AS ABSOLUTE TO THE CONTAINER */}
-            <img
-              className="absolute min-w-[103%] bottom-0 left-1/2 transform -translate-x-1/2"
-              src={chart}
-              alt="chart.svg"
-            />
 
             {/* THE DIV THAT CONTAINS THE ELEMENTS  */}
-            <div className="flex items-center gap-4 p-8">
+            <div className="flex items-center gap-4 py-10 px-8 z-10">
               {/* THE WALLET */}
               <div className="w-10 h-10">
                 <img src={wallet} alt="wallet.svg" />
               </div>
               {/* THE CONTENT< PRICE  */}
               <div className="flex flex-col items-start text-gray-300 font-DM">
-                <p className="text-sm ">Net USD Value</p>
-                <span className="text-xl font-medium">$ 6,942.0</span>
+                <p className="text-sm whitespace-nowrap">Net USD Value</p>
+                <span className="text-xl font-medium whitespace-nowrap ">$ 6,942.0</span>
               </div>
 
               {/* THE PERCENTAGE */}
@@ -41,6 +35,14 @@ const Dash = ({ page, setPage }) => {
                 +2.8%
               </p>
             </div>
+            
+                    
+            {/* THE IMAGE PLASEC AS ABSOLUTE TO THE CONTAINER */}
+            <img
+              className="absolute min-w-[103%] -z-0 bottom-0 left-1/2 transform -translate-x-1/2"
+              src={chart}
+              alt="chart.svg"
+            />
           </div>
         </div>
       </div>
@@ -56,7 +58,7 @@ const Dash = ({ page, setPage }) => {
 
             {/* THE TABLE */}
             <div className="w-full h-[70%] p-8 text-gray-300 font-DM scroll-y">
-              <table className="w-full text-center flex flex-col">
+              <table className="w-fit lg-w-full text-center flex flex-col scroll-x">
                 <thead>
                   <tr className="text-center flex w-full">
                     <th className="tables3">Asset</th>

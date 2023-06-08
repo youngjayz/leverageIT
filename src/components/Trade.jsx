@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { styles } from "../styles";
-import { ArrowDown, ArrowRight, Bitcoin, Glass, Tether } from "iconsax-react";
+import { ArrowDown, ArrowDown2, ArrowRight, ArrowSwapHorizontal, Bitcoin, Edit, Glass, Tether } from "iconsax-react";
 import TradingViewWidget from "./TradingView";
 import { Icon } from "@iconify/react";
 import { coins } from "../data";
+import BottomNav from "./BottomNav";
+
+const buttons = ["Chart", "Order Book", "Trades"]
+const buySell = ["Buy", "Sell"];
+const multipliers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 const TradeNav = () => {
   return (
-    <div className="w-[69%] py-6">
+    <div className=" hidden lg:block w-[69%] py-6">
       <div className="w-full flex items-center font-DM">
         {/* THE ICON */}
         <Bitcoin color="#f7931a" size="36" variant="Bold" />
@@ -68,6 +73,10 @@ const Trade = () => {
   const [coinDrop, setCoinDrop] = useState(false)
   const [coin, setCoin] = useState("BTC")
   const [market, setMarket] = useState("")
+  const [buttonName, setButtonName] = useState("Chart")
+  const [buySellButton, setBuySellButton] = useState("Buy")
+  const [openLeverage, setOpenLeverage] = useState(false)
+  const [leverage, setLeverage] = useState(1)
   
   
 
@@ -82,17 +91,18 @@ const Trade = () => {
   }
   
   return (
-    <div className={styles.container1}>
+    <div className={`${styles.container1} bg-sidebarDark`}>
       {/* <Navbar /> */}
 
       {/* THE TOP PART WHERE THE TRADE NAV IS */}
       <TradeNav />
+      <BottomNav />
 
       {/* THE TRADING VIEW AND THE PANEL BY THE SIDE */}
       <div className="w-full h-fit flex gap-5 items-stretch justify-between">
         {/* THE TRADING VIEW */}
-        <div className="w-[69%] border-grad rounded-[24px] p-[2px] flex ">
-          <div className="bg-sidebar rounded-[22px] w-full overflow-hidden">
+        <div className="w-full lg:w-[69%] flex  border-grad-trade rounded-none  lg:rounded-[24px] p-0  lg:p-[2px]">
+          <div className=" bg-sidebar rounded-none lg:rounded-[22px] w-full overflow-hidden">
             <div className="w-full p-[2px] flex items0center justify-between  ">
               {/* THE PRICE AND FUNDING */}
               <div className=" p-4 flex items-center gap-2 justify-between font-DM">
@@ -107,9 +117,9 @@ const Trade = () => {
               {/* THE GLASSES AND SWITCH */}
               <div className="flex items-center gap-2 pr-4">
                 <Glass size="14" color="#D1D5DB" />
-                <label class="switch">
+                <label className="switch">
                   <input type="checkbox" />
-                  <span class="slider round"></span>
+                  <span className="slider round"></span>
                 </label>
               </div>
             </div>
@@ -117,7 +127,7 @@ const Trade = () => {
           </div>
         </div>
         {/* THE PANEL ON THE RIGHT */}
-        <div className="w-[31%] border-grad rounded-[14px] p-[2px] ">
+        <div className=" hidden lg:block w-[31%] border-grad rounded-[14px] p-[2px] ">
           <div className="bg-sidebar rounded-[12px] w-full overflow-hidden flex flex-col items-center">
             {/* SWITCH */}
             <div className="w-full p-4 flex items-center justify-between">
@@ -184,6 +194,7 @@ const Trade = () => {
                       >
                         {coins.map((item) => (
                           <p
+                            key={item.id}
                             onClick={() => {
                               setMarket(item.code);
                             }}
@@ -277,7 +288,7 @@ const Trade = () => {
         </div>
       </div>
 
-      <div className="w-full h-fit flex gap-5 mt-4 items-stretch justify-between">
+      <div className="w-full h-fit hidden lg:flex gap-5 mt-4 items-stretch justify-between">
         {/* THE TRADING VIEW */}
         <div className="w-[69%] border-grad rounded-[24px] p-[2px] flex ">
           <div className="bg-sidebar rounded-[22px] w-full overflow-hidden">
@@ -367,6 +378,161 @@ const Trade = () => {
             </table>
           </div>
         </div>
+      </div>
+
+      {/* FOR THE MOBILE PART */}
+      <div className="w-full h-fit flex lg:hidden items-stretch justify-between">
+        <div className="w-full border-grad-trade2 flex ">
+          <div className="bg-sidebar w-full overflow-hidden">
+            {/* ORDER BUTTONS AND CO */}
+            <div className="w-full flex items-center justify-center gap-3 text-inputText font-DM">
+              {buttons.map((item, idx) => (
+                <button
+                  style={{
+                    background: buttonName === item ? "#424242" : "#42424262",
+                    color: buttonName === item ? "#d1d5db" : "#424242",
+                  }}
+                  key={idx}
+                  onClick={() => {
+                    setButtonName(item);
+                  }}
+                  className="py-1 text-sm px-4 rounded-full bg-inputPh"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+
+            {/* THE DIV FOR THE CONTAINER UNDER */}
+            <div className="w-full self-stretch p-4 bg-input mt-8 rounded-tl-[26px] rounded-tr-[26px] font-DM text-gray-300">
+              <div className="w-full h-full flex items-center justify-between flex-col">
+                {/* THE LEVERAGE DIV */}
+                <div className="w-full flex items-start justify-between">
+                  <div onClick={() => {
+                    setOpenLeverage(!openLeverage);
+                  }} className="flex items-center relative gap-1">
+                    <p className="text-sm">Leverage: {leverage}x </p>
+                    <ArrowDown2 variant="Bold" size="16" />
+
+                    {/* THE DROP DOWN */}
+                    <div
+                      className={
+                        openLeverage === true ? "drop-open" : "drop-close"
+                      }
+                    >
+                      {multipliers.map((item,idx) => (
+                        <p
+                          key={idx}
+                          onClick={() => {
+                            setLeverage(item);
+                          }}
+                          className="pl-10"
+                        >
+                          {item}x
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <p className="text-sm text-inputText">
+                      Funding / Countdown{" "}
+                    </p>
+                    <span className="text-sm font-bold">
+                      0.0100% / 00:07:41
+                    </span>
+                  </div>
+                </div>
+
+                {/* THE BUY SELL BUTONS DIV */}
+                <div className="w-full flex items-center rounded overflow-hidden mt-2">
+                  {buySell.map((item, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setBuySellButton(item);
+                      }}
+                      className={`${
+                        buySellButton === item
+                          ? `${
+                              item === "Buy" ? "bg-green" : "bg-btc"
+                            } text-white`
+                          : "bg-inputText"
+                      } py-1 w-1/2`}
+                    >
+                      {item}{" "}
+                    </button>
+                  ))}
+                </div>
+
+                {/* THE AVAILABLE DIV */}
+                <div className="w-full flex items-center flex-col justify-between rounded overflow-hidden mt-2">
+                  {/* AVAILABLE */}
+                  <div className="flex justify-between w-full mt-2 items-center">
+                    <p className="text-xs">Available</p>
+                    <div className="flex items-center gap-1">
+                      <p className="text-sm">0 USDT</p>
+                      <ArrowSwapHorizontal
+                        // variant="Bold"
+                        color="#f7931a"
+                        size="16"
+                      />
+                    </div>
+                  </div>
+
+                  {/* DIV FOR THE INPUT FIELD */}
+                  <div className="w-full bg-input mt-2 relative">
+                    <p className="absolute top-1/2 transform -translate-y-1/2 right-4 text-gray-500">
+                      USDT
+                    </p>
+                    <input
+                      type="text"
+                      placeholder="Order Amount"
+                      className="p-3 py-4 placeholder:text-gray-400 text-sm text-gray-300"
+                    />
+                  </div>
+
+                  {/* TRANSFER NOW */}
+                  <p className="w-full text-left text-xs mt-1 ">
+                    No balance. <span className="text-btc">Transfer Now</span>{" "}
+                  </p>
+
+                  {/* EST AMOUNT< PRICE < SLIPPAGE TOLERANCE */}
+                  <div className="w-full flex flex-col gap-2 mt-5">
+                    {/* EST AMOUNT */}
+                    <div className="w-full flex items-center justify-between">
+                      <p className="text-sm text-gray-500">Est. Amount</p>
+                      <span className="text-sm text-gray-300">-- BTC</span>
+                    </div>
+                    {/* EST PRICE */}
+                    <div className="w-full flex items-center justify-between">
+                      <p className="text-sm text-gray-500">Est. Price</p>
+                      <span className="text-sm text-gray-300">-- BTC</span>
+                    </div>
+
+                    {/*SLIPPAGE TOLERANCE */}
+                    <div className="w-full flex items-center justify-between">
+                      <p className="text-sm text-gray-500">
+                        Slippage Tolerance
+                      </p>
+                      <div className="text-sm flex items-center text-gray-300">
+                        <p>0.10%</p>
+                        <Edit variant="TwoTone" size="16" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <button className="w-full p-4 text-sm text-white bg-green rounded mt-3 mb-[3rem]">
+                    Buy / {position === "long" ? "Long" : "Short"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* THE RIGHT PANEL OF TABLES */}
+
+        <div className="h-[200px]"></div>
       </div>
 
       <div className="h-14"></div>

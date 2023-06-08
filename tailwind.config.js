@@ -9,7 +9,9 @@ module.exports = {
       colors: {
         primary: "#000",
         bg: "#09090A",
+        btc: "#f7931a",
         sidebar: "#1d1d1d",
+        sidebarDark: "#1d1d1d",
         sidebarText: "#3DAFCD",
         accent: "#64C7E3",
         accent2: "#008080",
