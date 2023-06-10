@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  const [symbol, setSymbol] = useState("");
+  const [symbol, setSymbol] = useState("BTCUSD");
   const [wallet, setWallet] = useState();
 
   const connectWalletHandler = async () => {

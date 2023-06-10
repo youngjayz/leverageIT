@@ -17,18 +17,13 @@ const Dash = ({ page, setPage }) => {
   const fetchPortfolio = async () => {
     try {
       await axios.get(`${API_URL}/api/v1/portfolio`).then((res) => {
-        // console.log("portfolio:::", res.data);
+        console.log("portfolio:::", res.data);
         setPortfolio(res.data);
       });
     } catch (err) {
       console.log(err.message);
     }
   };
-
-  console.log(
-    "The positions",
-    portfolio && portfolio.positions.map((data) => data.symbol)
-  );
 
   useEffect(() => {
     fetchPortfolio();
@@ -38,7 +33,7 @@ const Dash = ({ page, setPage }) => {
     <div className={styles.container}>
       <Navbar page={page} />
 
-      <div className="w-full border-grad h-fit lg:h-[46vh]  p-[3px] rounded-[24px]">
+      <div className="w-full border-grad h-[200px] lg:h-[46vh] p-[3px] rounded-[24px]">
         <div className="w-full h-full flex items-center justify-between rounded-[22px] bg-sidebar">
           <div className="chart-img w-full h-full relative overflow-hidden">
             {/* THE DIV THAT CONTAINS THE ELEMENTS  */}
@@ -53,7 +48,15 @@ const Dash = ({ page, setPage }) => {
                 <span className="text-xl font-medium whitespace-nowrap ">
                   ${" "}
                   {portfolio
-                    ? Number(portfolio.totalWalletBalance).toFixed(2)
+                    ? Number(portfolio.totalWalletBalance).toFixed(2) +
+                      " " +
+                      "≈" +
+                      " " +
+                      "$" +
+                      " " +
+                      Number(portfolio.availableBalance).toFixed(2) +
+                      " " +
+                      "AB"
                     : "Fetching..."}
                 </span>
               </div>
@@ -89,40 +92,62 @@ const Dash = ({ page, setPage }) => {
                     <th className="tables3">Side</th>
                     <th className="tables3">Amount</th>
                     <th className="tables3">Leverage</th>
+                    <th className="tables3">Changes in %</th>
                   </tr>
                 </thead>
                 <tbody>
                   {portfolio &&
-                    portfolio.positions.map((data) => (
-                      <>
-                        {parseInt(data.positionAmt) !== 0 && (
-                          <tr className="no-botrow flex w-full">
-                            <td className="tables3 flex items-center justify-center gap-2">
-                              <span className="text-sm text-gray-300">
-                                {data.symbol}
-                              </span>
-                            </td>
-                            <td className="tables3 py-4 px-6 whitespace-nowrap">
-                              <span className="text-sm text-gray-300">
-                                {parseInt(data.positionAmt) < 0
-                                  ? "SELL"
-                                  : "BUY"}
-                              </span>
-                            </td>
-                            <td className="tables3 py-4 px-6 whitespace-nowrap">
-                              <span className="text-sm text-gray-300">
-                                {parseFloat(data.positionAmt).toFixed(2)}
-                              </span>
-                            </td>
-                            <td className="tables3 py-4 px-6 whitespace-nowrap">
-                              <span className="text-sm text-gray-300">
-                                {data.leverage}x
-                              </span>
-                            </td>
-                          </tr>
-                        )}
-                      </>
-                    ))}
+                    portfolio.positions.map((data) => {
+                      const percentage =
+                        (Number(data.unrealizedProfit) /
+                          Number(data.positionAmt)) *
+                        100;
+
+                      return (
+                        <>
+                          {parseInt(data.positionAmt) !== 0 && (
+                            <tr className="no-botrow flex w-full">
+                              <td className="tables3 flex items-center justify-center gap-2">
+                                <span className="text-sm text-gray-300">
+                                  {data.symbol}
+                                </span>
+                              </td>
+                              <td className="tables3 py-4 px-6 whitespace-nowrap">
+                                <span className="text-sm text-gray-300">
+                                  {parseInt(data.positionAmt) < 0
+                                    ? "SELL"
+                                    : "BUY"}
+                                </span>
+                              </td>
+                              <td className="tables3 py-4 px-6 whitespace-nowrap">
+                                <span className="text-sm text-gray-300">
+                                  {parseFloat(data.positionAmt).toFixed(2)}
+                                </span>
+                              </td>
+                              <td className="tables3 py-4 px-6 whitespace-nowrap">
+                                <span className="text-sm text-gray-300">
+                                  {data.leverage}x
+                                </span>
+                              </td>
+                              <td className="tables3 py-4 px-6 whitespace-nowrap">
+                                <span
+                                  className={`text-sm ${
+                                    percentage > 0 ? "text-green" : "text-red"
+                                  }`}
+                                >
+                                  {(
+                                    (Number(data.unrealizedProfit) /
+                                      Number(data.positionAmt)) *
+                                    100
+                                  ).toFixed(2)}
+                                  %
+                                </span>
+                              </td>
+                            </tr>
+                          )}
+                        </>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>

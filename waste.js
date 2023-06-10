@@ -34,3 +34,53 @@
     </table>
   </div>
 </div>;
+
+<p
+        onClick={() => {
+          // navigate("/copytrading");
+        }}
+        className={`${
+          location === "/copytrading" ? styles.menuTextHi : styles.comingSoon
+        }`}
+      >
+        {/* Copytrading */}
+        Coming Soon
+      </p>
+
+      <p
+        onClick={() => {
+          // navigate("/leaderboard");
+        }}
+        className={`${
+          location === "/leaderboard" ? styles.menuTextHi : styles.comingSoon
+        }`}
+      >
+        {/* Leaderboard */}
+        Coming Soon
+      </p>
+
+      <p
+        onClick={() => {
+          // navigate("/trading-bot");
+        }}
+        className={`${
+          location === "/trading-bot" ? styles.menuTextHi : styles.comingSoon
+        }`}
+      >
+        {/* AI Trading Bot */}
+        Coming Soon
+      </p>
+
+      <p
+        onClick={() => {
+          // navigate("/nft-marketplace");
+        }}
+        className={`${
+          location === "/nft-marketplace"
+            ? styles.menuTextHi
+            : styles.comingSoon
+        }`}
+      >
+        {/* NFT Marketplace */}
+        Coming Soon
+      </p>

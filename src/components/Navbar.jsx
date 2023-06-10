@@ -1,10 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import cogWheel from "../assets/cogWheel.svg";
 import { Icon } from "@iconify/react";
 import { GlobalContext } from "../context";
+import { WalletConnectModal } from "@walletconnect/modal";
 
 const Navbar = ({ page }) => {
   const { wallet, connectWalletHandler } = useContext(GlobalContext);
+  const [connectLoading, setConnectLoading] = useState(false);
+
+  const walletConnectModal = new WalletConnectModal({
+    projectId: "YOUR_PROJECT_ID",
+    standaloneChains: ["eip155:1"],
+    walletConnectVersion: 2,
+  });
+
+  const openModal = async () => {
+    await walletConnectModal.openModal({
+      uri: "YOUR_CONNECTION_URI",
+    });
+
+    // walletConnectModal.closeModal()
+  };
 
   const truncatedWallet =
     wallet && `${wallet.slice(0, 9)}...${wallet.slice(-2)}`;
@@ -17,9 +33,12 @@ const Navbar = ({ page }) => {
         {/* BUTTON WITH GRADIENT BORDER */}
         <div
           className="border-grad  w-[160px] p-[2px] rounded-full cursor-pointer"
-          onClick={connectWalletHandler}
+          onClick={openModal}
         >
-          <p className="w-full h-full text-sm bg-sidebar rounded-full text-white font-bold px-4 py-1">
+          <p
+            className="w-full h-full text-sm bg-sidebar rounded-full text-white 
+          font-bold px-4 py-1"
+          >
             {truncatedWallet ? truncatedWallet : "Connect wallet"}
           </p>
         </div>

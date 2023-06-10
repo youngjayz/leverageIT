@@ -119,6 +119,7 @@ const Trade = () => {
   const [openLeverage, setOpenLeverage] = useState(false);
   const [leverage, setLeverage] = useState(1);
   const [quantity, setQuantity] = useState("");
+  const [successModal, setSuccessModal] = useState(false);
 
   const placeTradeOrder = async () => {
     setTradeLoad(true);
@@ -133,7 +134,7 @@ const Trade = () => {
         console.log("Order res:::", res.data);
         if (res.status === 200 || res.status === 201) {
           setTradeLoad(false);
-          alert("Order started successfully.");
+          setSuccessModal(true);
           getCurrentPositions();
         } else {
           alert("Something went wrong. Can't start order.");
@@ -364,6 +365,32 @@ const Trade = () => {
             </div>
           </div>
         </div>
+        {successModal && (
+          <div
+            className="absolute top-0 left-0 bg-[#000000d3] flex justify-center 
+          h-full w-full z-50 items-center"
+          >
+            <div
+              className="bg-white p-[20px] md:h-[30%] md:w-[30%] flex 
+            justify-center items-center"
+            >
+              <div className="space-y-5">
+                <p className="text-[20px] font-bold text-center">
+                  Order Started Successfully!!!
+                </p>
+                <div className="justify-center flex">
+                  <button
+                    className="bg-buttongreen py-[10px] px-[50px]
+                 rounded-md font-medium"
+                    onClick={() => setSuccessModal(false)}
+                  >
+                    Okay
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="w-full h-fit hidden lg:flex gap-5 mt-4 items-stretch justify-between">
@@ -418,41 +445,68 @@ const Trade = () => {
                         <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Leverage
                         </th>
+                        <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Change in %
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {positionData ? (
                         <>
-                          {positionData.map((data) => (
-                            <>
-                              {parseInt(data.positionAmt) !== 0 && (
-                                <tr>
-                                  <td className="py-4 px-6 whitespace-nowrap">
-                                    <span className="text-sm text-gray-900">
-                                      {data.symbol}
-                                    </span>
-                                  </td>
-                                  <td className="py-4 px-6 whitespace-nowrap">
-                                    <span className="text-sm text-gray-900">
-                                      {parseInt(data.positionAmt) < 0
-                                        ? "SELL"
-                                        : "BUY"}
-                                    </span>
-                                  </td>
-                                  <td className="py-4 px-6 whitespace-nowrap">
-                                    <span className="text-sm text-gray-900">
-                                      {parseFloat(data.positionAmt).toFixed(2)}
-                                    </span>
-                                  </td>
-                                  <td className="py-4 px-6 whitespace-nowrap">
-                                    <span className="text-sm text-gray-900">
-                                      {data.leverage}x
-                                    </span>
-                                  </td>
-                                </tr>
-                              )}
-                            </>
-                          ))}
+                          {positionData.map((data) => {
+                            const percentage =
+                              (Number(data.unrealizedProfit) /
+                                Number(data.positionAmt)) *
+                              100;
+                            return (
+                              <>
+                                {parseInt(data.positionAmt) !== 0 && (
+                                  <tr>
+                                    <td className="py-4 px-6 whitespace-nowrap">
+                                      <span className="text-sm text-gray-900">
+                                        {data.symbol}
+                                      </span>
+                                    </td>
+                                    <td className="py-4 px-6 whitespace-nowrap">
+                                      <span className="text-sm text-gray-900">
+                                        {parseInt(data.positionAmt) < 0
+                                          ? "SELL"
+                                          : "BUY"}
+                                      </span>
+                                    </td>
+                                    <td className="py-4 px-6 whitespace-nowrap">
+                                      <span className="text-sm text-gray-900">
+                                        {parseFloat(data.positionAmt).toFixed(
+                                          2
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="py-4 px-6 whitespace-nowrap">
+                                      <span className="text-sm text-gray-900">
+                                        {data.leverage}x
+                                      </span>
+                                    </td>
+                                    <td className="py-4 px-6 whitespace-nowrap">
+                                      <span
+                                        className={`text-sm ${
+                                          percentage > 0
+                                            ? "text-green"
+                                            : "text-red"
+                                        }`}
+                                      >
+                                        {(
+                                          (Number(data.unRealizedProfit) /
+                                            Number(data.positionAmt)) *
+                                          100
+                                        ).toFixed(2)}
+                                        %
+                                      </span>
+                                    </td>
+                                  </tr>
+                                )}
+                              </>
+                            );
+                          })}
                         </>
                       ) : (
                         <p>You do not have any positions yet</p>

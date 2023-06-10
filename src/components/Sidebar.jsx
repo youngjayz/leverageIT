@@ -124,7 +124,18 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
         }`}
       >
         {/* Stake */}
-        Coming Soon
+        Trade Stocks <span className="text-[12px]" >Coming Soon</span>
+      </p>
+      <p
+        onClick={() => {
+          // navigate("/stake");
+        }}
+        className={`${
+          location === "/stake" ? styles.menuTextHi : styles.comingSoon
+        }`}
+      >
+        {/* Stake */}
+        Copytrading <span className="text-[12px]" >Coming Soon</span>
       </p>
 
       <p
@@ -137,56 +148,6 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
         }`}
       >
         Dashboard
-      </p>
-
-      <p
-        onClick={() => {
-          // navigate("/copytrading");
-        }}
-        className={`${
-          location === "/copytrading" ? styles.menuTextHi : styles.comingSoon
-        }`}
-      >
-        {/* Copytrading */}
-        Coming Soon
-      </p>
-
-      <p
-        onClick={() => {
-          // navigate("/leaderboard");
-        }}
-        className={`${
-          location === "/leaderboard" ? styles.menuTextHi : styles.comingSoon
-        }`}
-      >
-        {/* Leaderboard */}
-        Coming Soon
-      </p>
-
-      <p
-        onClick={() => {
-          // navigate("/trading-bot");
-        }}
-        className={`${
-          location === "/trading-bot" ? styles.menuTextHi : styles.comingSoon
-        }`}
-      >
-        {/* AI Trading Bot */}
-        Coming Soon
-      </p>
-
-      <p
-        onClick={() => {
-          // navigate("/nft-marketplace");
-        }}
-        className={`${
-          location === "/nft-marketplace"
-            ? styles.menuTextHi
-            : styles.comingSoon
-        }`}
-      >
-        {/* NFT Marketplace */}
-        Coming Soon
       </p>
     </div>
   );
