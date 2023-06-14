@@ -15,6 +15,7 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import { coins } from "../data";
 import BottomNav from "./BottomNav";
+import { BiErrorCircle } from "react-icons/bi";
 
 const buttons = ["Chart", "Order Book", "Trades"];
 const buySell = ["Long", "Short"];
@@ -117,9 +118,10 @@ const Trade = () => {
   const [buttonName, setButtonName] = useState("Chart");
   const [buySellButton, setBuySellButton] = useState("Long");
   const [openLeverage, setOpenLeverage] = useState(false);
-  const [leverage, setLeverage] = useState(1);
+  const [leverage, setLeverage] = useState(0);
   const [quantity, setQuantity] = useState("");
   const [successModal, setSuccessModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const placeTradeOrder = async () => {
     setTradeLoad(true);
@@ -134,8 +136,13 @@ const Trade = () => {
         console.log("Order res:::", res.data);
         if (res.status === 200 || res.status === 201) {
           setTradeLoad(false);
-          setSuccessModal(true);
-          getCurrentPositions();
+          console.log("message status:::", res.data.status_code);
+          if (res.data.status_code >= 400) {
+            setErrorMessage(res.data.detail);
+          } else {
+            setSuccessModal(true);
+            getCurrentPositions();
+          }
         } else {
           alert("Something went wrong. Can't start order.");
           setTradeLoad(false);
@@ -160,11 +167,11 @@ const Trade = () => {
       {/* <Navbar /> */}
 
       {/* THE TOP PART WHERE THE TRADE NAV IS */}
-      <TradeNav />
+      {/* <TradeNav /> */}
       {/* <BottomNav /> */}
 
       {/* THE TRADING VIEW AND THE PANEL BY THE SIDE */}
-      <div className="w-full h-fit flex gap-5 items-stretch justify-between">
+      <div className="w-full h-fit flex gap-5 items-stretch justify-between pt-[80px]">
         {/* THE TRADING VIEW */}
         <div className="w-full lg:w-[69%] flex  border-grad-trade rounded-none  lg:rounded-[24px] p-0  lg:p-[2px]">
           <div className=" bg-sidebar rounded-none lg:rounded-[22px] w-full overflow-hidden">
@@ -391,13 +398,43 @@ const Trade = () => {
             </div>
           </div>
         )}
+
+        {errorMessage && (
+          <div
+            className="absolute top-0 left-0 bg-[#000000d3] flex justify-center 
+          h-full w-full z-50 items-center"
+          >
+            <div
+              className="bg-white p-[20px] md:h-[30%] md:w-[30%] flex 
+            justify-center items-center"
+            >
+              <div className="space-y-5">
+                <div className="flex justify-center">
+                  <BiErrorCircle className="text-[40px] text-red" />
+                </div>
+                <p className="text-[20px] font-bold text-center">
+                  {errorMessage}
+                </p>
+                <div className="justify-center flex">
+                  <button
+                    className="bg-buttongreen py-[10px] px-[50px]
+                 rounded-md font-medium"
+                    onClick={() => setErrorMessage(null)}
+                  >
+                    Okay
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="w-full h-fit hidden lg:flex gap-5 mt-4 items-stretch justify-between">
+      <div className="w-full h-fit lg:flex gap-5 mt-4 items-stretch justify-between">
         {/* THE TRADING VIEW */}
-        <div className="w-[69%] border-grad rounded-[24px] p-[2px] flex ">
-          <div className="bg-sidebar rounded-[22px] w-full overflow-hidden">
-            <div className="w-full p-[2px] flex items0center justify-between  ">
+        <div className="w-full h-[300px] border-grad rounded-[24px] p-[2px] flex">
+          <div className="bg-sidebar rounded-[22px] w-full overflow-scroll">
+            <div className="w-full p-[2px] flex items-center justify-between">
               {/* THE POSITION AND ORDERS */}
               <div className="p-4 flex items-center gap-2 justify-between font-DM">
                 <button
@@ -411,17 +448,6 @@ const Trade = () => {
                   }
                 >
                   Position
-                </button>
-
-                <button
-                  onClick={() => {
-                    setPositionTwo("fills");
-                  }}
-                  className={
-                    positionTwo === "fills" ? styles.isNotFills : styles.isFills
-                  }
-                >
-                  Fills
                 </button>
               </div>
             </div>
@@ -450,7 +476,7 @@ const Trade = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="divide-y divide-gray-200">
                       {positionData ? (
                         <>
                           {positionData.map((data) => {
@@ -463,26 +489,26 @@ const Trade = () => {
                                 {parseInt(data.positionAmt) !== 0 && (
                                   <tr>
                                     <td className="py-4 px-6 whitespace-nowrap">
-                                      <span className="text-sm text-gray-900">
+                                      <span className="text-sm text-white">
                                         {data.symbol}
                                       </span>
                                     </td>
                                     <td className="py-4 px-6 whitespace-nowrap">
-                                      <span className="text-sm text-gray-900">
+                                      <span className="text-sm text-white">
                                         {parseInt(data.positionAmt) < 0
                                           ? "SELL"
                                           : "BUY"}
                                       </span>
                                     </td>
                                     <td className="py-4 px-6 whitespace-nowrap">
-                                      <span className="text-sm text-gray-900">
+                                      <span className="text-sm text-white">
                                         {parseFloat(data.positionAmt).toFixed(
                                           2
                                         )}
                                       </span>
                                     </td>
                                     <td className="py-4 px-6 whitespace-nowrap">
-                                      <span className="text-sm text-gray-900">
+                                      <span className="text-sm text-white">
                                         {data.leverage}x
                                       </span>
                                     </td>
