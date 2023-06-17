@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { styles } from "../styles";
 import {
   ArrowDown,
@@ -16,6 +16,7 @@ import axios from "axios";
 import { coins } from "../data";
 import BottomNav from "./BottomNav";
 import { BiErrorCircle } from "react-icons/bi";
+import { GlobalContext } from "../context";
 
 const buttons = ["Chart", "Order Book", "Trades"];
 const buySell = ["Long", "Short"];
@@ -81,6 +82,7 @@ const Trade = () => {
   const [positionData, setPositionData] = useState(null);
   const [tradables, setTradables] = useState();
   const [tradeLoad, setTradeLoad] = useState(false);
+  const { setSymbol } = useContext(GlobalContext);
 
   const getCurrentPositions = async () => {
     setPositionData(null);
@@ -113,7 +115,7 @@ const Trade = () => {
   const [positionTwo, setPositionTwo] = useState("position");
   const [marketDrop, setMarketDrop] = useState(false);
   const [coinDrop, setCoinDrop] = useState(false);
-  const [coin, setCoin] = useState("BTC");
+  const [coin, setCoin] = useState("");
   const [market, setMarket] = useState("");
   const [buttonName, setButtonName] = useState("Chart");
   const [buySellButton, setBuySellButton] = useState("Long");
@@ -122,35 +124,48 @@ const Trade = () => {
   const [quantity, setQuantity] = useState("");
   const [successModal, setSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [price, setPrice] = useState(0);
 
   const placeTradeOrder = async () => {
     setTradeLoad(true);
-    try {
-      const data = {
-        leverage: leverage,
-        symbol: coin,
-        side: position === "Long" ? "BUY" : "SELL",
-        quantity: quantity,
-      };
-      await axios.post(`${API_URL}/api/v1/order`, data).then((res) => {
-        console.log("Order res:::", res.data);
-        if (res.status === 200 || res.status === 201) {
-          setTradeLoad(false);
-          console.log("message status:::", res.data.status_code);
-          if (res.data.status_code >= 400) {
-            setErrorMessage(res.data.detail);
+    if (quantity === "" || market === "") {
+      setErrorMessage("Quantity or Order type cannot be empty");
+    } else if (leverage <= 1) {
+      setErrorMessage("Leverage cannot be less than 2");
+    } else if (market === "Limit" && price === "") {
+      setErrorMessage("Price cannot be empty");
+    } else if (coin === "") {
+      setErrorMessage("Please pick an asset");
+    } else {
+      try {
+        const data = {
+          leverage: leverage,
+          symbol: coin,
+          side: position === "Long" ? "BUY" : "SELL",
+          type: market,
+          quantity: quantity,
+          price: Number(price),
+        };
+        await axios.post(`${API_URL}/api/v1/order`, data).then((res) => {
+          console.log("Order res:::", res.data);
+          if (res.status === 200 || res.status === 201) {
+            setTradeLoad(false);
+            console.log("message status:::", res.data.status_code);
+            if (res.data.status_code >= 400) {
+              setErrorMessage(res.data.detail);
+            } else {
+              setSuccessModal(true);
+              getCurrentPositions();
+            }
           } else {
-            setSuccessModal(true);
-            getCurrentPositions();
+            alert("Something went wrong. Can't start order.");
+            setTradeLoad(false);
           }
-        } else {
-          alert("Something went wrong. Can't start order.");
-          setTradeLoad(false);
-        }
-      });
-    } catch (err) {
-      console.log(err.message);
-      setTradeLoad(false);
+        });
+      } catch (err) {
+        console.log(err.message);
+        setTradeLoad(false);
+      }
     }
   };
 
@@ -234,7 +249,8 @@ const Trade = () => {
                     <input
                       type="text"
                       placeholder="0.0"
-                      className="text-gray-600 border-input border rounded-full w-full text-sm placeholder:text-inputText px-2 py-1"
+                      className="text-white border-input border rounded-full w-full text-sm 
+                      placeholder:text-inputText px-2 py-1"
                       value={quantity}
                       onChange={(e) => setQuantity(e.target.value)}
                     />
@@ -244,13 +260,14 @@ const Trade = () => {
                     <label className="text-xs mb-2">Order Type</label>
                     <div
                       onClick={toggleMarket}
-                      className="text-gray-600 cursor-pointer border-input border rounded-full w-full placeholder:text-inputText 
+                      className="text-gray-600 cursor-pointer border-input border rounded-full 
+                      w-full placeholder:text-inputText 
                       text-sm px-2 py-1 relative "
                     >
                       <input
                         type="text"
                         placeholder="Markets"
-                        className="text-inputText pointer-events-none placeholder:text-inputText"
+                        className="text-white pointer-events-none placeholder:text-inputText"
                         disabled
                         value={market}
                       />
@@ -269,28 +286,48 @@ const Trade = () => {
                       >
                         <p
                           onClick={() => {
-                            setMarket("Market Execution");
+                            setMarket("MARKET");
                           }}
                         >
-                          Market Execution
+                          MARKET
+                        </p>
+                        <p
+                          onClick={() => {
+                            setMarket("LIMIT");
+                          }}
+                        >
+                          LIMIT
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
 
+                {market === "LIMIT" && (
+                  <div className={`mt-[20px]`}>
+                    <label className="text-xs mb-2 text-white">Price</label>
+                    <input
+                      type="number"
+                      placeholder="0.0"
+                      className="text-white border-input border rounded-full w-full text-sm 
+                      placeholder:text-inputText px-2 py-1"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+                  </div>
+                )}
+
                 <div className="w-full flex flex-col items-start mt-8 font-DM text-gray-300">
                   <label className="text-xs mb-2">Asset</label>
                   <div className="w-full flex flex-col">
                     <div
                       onClick={toggleCoin}
-                      className="relative cursor-pointer flex items-center gap-2 border-input border rounded-tr-2xl rounded-tl-2xl px-2 py-1  "
+                      className="relative cursor-pointer flex items-center gap-2 
+                      border-input border rounded-tr-2xl rounded-tl-2xl px-2 py-1  "
                     >
                       {/* DIV FOR THE ICON AND THE TEXT */}
                       <div className="flex items-center gap-1 pointer-events-none">
-                        <p className="text-xs text-inputText font-medium">
-                          {coin}
-                        </p>
+                        <p className="text-xs text-white font-medium">{coin}</p>
                       </div>
                       {/* THE MAIN INPUT FIELD */}
                       <input
@@ -310,6 +347,7 @@ const Trade = () => {
                           <p
                             onClick={() => {
                               setCoin(item.symbol);
+                              setSymbol(item.symbol);
                             }}
                           >
                             {item.baseAsset}
@@ -317,11 +355,14 @@ const Trade = () => {
                         ))}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 border-input border rounded-br-2xl rounded-bl-2xl px-2 py-1  ">
+                    <div
+                      className="flex items-center gap-2 border-input border 
+                    rounded-br-2xl rounded-bl-2xl px-2 py-1  "
+                    >
                       {/* DIV FOR THE ICON AND THE TEXT */}
                       <div className="flex items-center gap-1">
                         <Tether variant="Bold" color="#6DDE09" size="16" />
-                        <p className="text-xs text-inputText font-medium">
+                        <p className="text-xs text-white font-medium">
                           USDT
                         </p>
                       </div>
@@ -405,7 +446,7 @@ const Trade = () => {
           h-full w-full z-50 items-center"
           >
             <div
-              className="bg-white p-[20px] md:h-[30%] md:w-[30%] flex 
+              className="bg-white p-[20px] md:w-[30%] flex 
             justify-center items-center"
             >
               <div className="space-y-5">
@@ -577,7 +618,7 @@ const Trade = () => {
                 {/* THE AVAILABLE DIV */}
                 <div className="w-full flex items-center flex-col justify-between rounded overflow-hidden mt-2">
                   {/* DIV FOR THE INPUT FIELD */}
-                  <div className="w-full bg-input relative my-[20px]">
+                  <div className="w-full bg-input my-[20px]">
                     <input
                       type="number"
                       placeholder="Order Amount"
@@ -586,6 +627,68 @@ const Trade = () => {
                       onChange={(e) => setQuantity(e.target.value)}
                     />
                   </div>
+
+                  <div className="w-full flex flex-col items-start font-DM">
+                    <label className="text-xs mb-2">Order Type</label>
+                    <div
+                      onClick={toggleMarket}
+                      className="text-white cursor-pointer border-white 
+                      border rounded w-full 
+                      placeholder:text-white 
+                      text-sm px-2 py-2 relative "
+                    >
+                      <input
+                        type="text"
+                        placeholder="Markets"
+                        className="text-white pointer-events-none 
+                        placeholder:text-white"
+                        disabled
+                        value={market}
+                      />
+
+                      <ArrowDown
+                        color="#fff"
+                        size="20"
+                        className="absolute top-1/2 right-2 transform -translate-y-1/2"
+                      />
+
+                      {/* THE DROP DOWN */}
+                      <div
+                        className={
+                          marketDrop === true ? "drop-open" : "drop-close"
+                        }
+                      >
+                        <p
+                          onClick={() => {
+                            setMarket("MARKET");
+                          }}
+                        >
+                          MARKET
+                        </p>
+                        <p
+                          onClick={() => {
+                            setMarket("LIMIT");
+                          }}
+                        >
+                          LIMIT
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {market === "LIMIT" && (
+                    <div className={`mt-[20px] w-full`}>
+                      <label className="text-xs mb-2 text-white">Price</label>
+                      <input
+                        type="text"
+                        placeholder="0.0"
+                        className="text-white border-white border rounded 
+                        w-full text-sm placeholder:text-inputText px-2 py-2"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                    </div>
+                  )}
 
                   {/* THE LEVERAGE DIV */}
                   <div className="w-full flex items-start justify-between mt-[20px]">
@@ -638,6 +741,7 @@ const Trade = () => {
                             <p
                               onClick={() => {
                                 setCoin(item.symbol);
+                                setSymbol(item.symbol);
                               }}
                             >
                               {item.baseAsset}

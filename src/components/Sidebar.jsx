@@ -124,7 +124,7 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
         }`}
       >
         {/* Stake */}
-        Trade Stocks <span className="text-[12px]" >Coming Soon</span>
+        Trade Stocks <span className="text-[12px]">Coming Soon</span>
       </p>
       <p
         onClick={() => {
@@ -135,7 +135,7 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
         }`}
       >
         {/* Stake */}
-        Copytrading <span className="text-[12px]" >Coming Soon</span>
+        Copytrading <span className="text-[12px]">Coming Soon</span>
       </p>
 
       <p
