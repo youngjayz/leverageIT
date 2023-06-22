@@ -38,7 +38,7 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
   return (
     <div
       className="w-full h-full relative bg-sidebar pt-[50%] pb-[30%] flex flex-col gap-4 border-r
-     border-inputText text-sidebarText font-DM scroll-yy"
+     border-inputText text-sidebarText font-Lato scroll-yy"
     >
       <div onClick={toggleSideBar} className="absolute z-30 left-[100%] top-20">
         <SidebarSwitch openNav={openNav} />

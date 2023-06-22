@@ -14,7 +14,7 @@ const BottomNav = () => {
 
   return (
     <div
-      className="z-10 fixed bottom-0 font-DM bg-sidebar text-gray-300 w-full flex items-end justify-between border-t
+      className="z-10 fixed bottom-0 font-Lato bg-sidebar text-gray-300 w-full flex items-end justify-between border-t
      border-inputText py-4 px-8"
     >
       {links &&

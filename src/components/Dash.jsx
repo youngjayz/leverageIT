@@ -43,7 +43,7 @@ const Dash = ({ page, setPage }) => {
                 <img src={wallet} alt="wallet.svg" />
               </div>
               {/* THE CONTENT< PRICE  */}
-              <div className="flex flex-col items-start text-gray-300 font-DM">
+              <div className="flex flex-col items-start text-gray-300 font-Lato">
                 <p className="text-sm whitespace-nowrap">Net USD Value</p>
                 <span className="text-xl font-medium whitespace-nowrap ">
                   ${" "}
@@ -79,12 +79,12 @@ const Dash = ({ page, setPage }) => {
         <div className="w-full h-full flex items-center justify-between rounded-[22px] bg-sidebar">
           <div className="w-full h-full relative overflow-hidden">
             {/* THE TITLE  */}
-            <div className="flex items-center gap-4 p-8 font-DM text-gray-300 ">
+            <div className="flex items-center gap-4 p-8 font-Lato text-gray-300 ">
               <h2 className="text-2xl font-medium ">Portfolio</h2>
             </div>
 
             {/* THE TABLE */}
-            <div className="w-full h-[70%] p-8 text-gray-300 font-DM scroll-y">
+            <div className="w-full h-[70%] p-8 text-gray-300 font-Lato scroll-y">
               <table className="w-full md-w-full text-center flex flex-col scroll-x">
                 <thead>
                   <tr className="text-center flex w-full">

@@ -1,12 +1,12 @@
 <div className="w-[31%] border-grad rounded-[14px] p-[2px] ">
   <div className="bg-sidebar rounded-[12px] w-full overflow-hidden flex flex-col items-center">
     {/* MARKETS AND TRADE TIME */}
-    <div className="w-full p-4 flex items-center justify-between font-DM">
+    <div className="w-full p-4 flex items-center justify-between font-Lato">
       <h4 className="text-gray-300 text-sm ">Market Trades</h4>
-      <p className="text-sm text-inputText font-medium font-DM">24H</p>
+      <p className="text-sm text-inputText font-medium font-Lato">24H</p>
     </div>
 
-    <table className="mt-5 text-gray-300 text-left w-full px-4 text-xs font-DM mb-1">
+    <table className="mt-5 text-gray-300 text-left w-full px-4 text-xs font-Lato mb-1">
       <thead>
         <tr className="text-gray-500">
           <th className="text-left  tables">SIZE</th>

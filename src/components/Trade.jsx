@@ -17,6 +17,7 @@ import { coins } from "../data";
 import BottomNav from "./BottomNav";
 import { BiErrorCircle } from "react-icons/bi";
 import { GlobalContext } from "../context";
+import TradeNavbar from "./TradeNavbar";
 
 const buttons = ["Chart", "Order Book", "Trades"];
 const buySell = ["Long", "Short"];
@@ -29,7 +30,7 @@ const API_URL = "https://papertrade-1-m0489875.deta.app";
 const TradeNav = () => {
   return (
     <div className=" hidden lg:block w-[69%] py-6">
-      <div className="w-full flex items-center font-DM">
+      <div className="w-full flex items-center font-Lato">
         {/* THE ICON */}
         <Bitcoin color="#f7931a" size="36" variant="Bold" />
         <table className="text-gray-300">
@@ -179,20 +180,20 @@ const Trade = () => {
 
   return (
     <div className={`${styles.container1} bg-sidebarDark`}>
-      {/* <Navbar /> */}
+      <TradeNavbar />
 
       {/* THE TOP PART WHERE THE TRADE NAV IS */}
       {/* <TradeNav /> */}
       {/* <BottomNav /> */}
 
       {/* THE TRADING VIEW AND THE PANEL BY THE SIDE */}
-      <div className="w-full h-fit flex gap-5 items-stretch justify-between pt-[80px]">
+      <div className="w-full h-fit flex gap-5 items-stretch justify-between">
         {/* THE TRADING VIEW */}
         <div className="w-full lg:w-[69%] flex  border-grad-trade rounded-none  lg:rounded-[24px] p-0  lg:p-[2px]">
           <div className=" bg-sidebar rounded-none lg:rounded-[22px] w-full overflow-hidden">
             <div className="w-full p-[2px] flex items0center justify-between  ">
               {/* THE PRICE AND FUNDING */}
-              <div className=" p-4 flex items-center gap-2 justify-between font-DM">
+              <div className=" p-4 flex items-center gap-2 justify-between font-Lato">
                 <button className="bg-gray-300 cursor-pointer rounded-full w-[48%] text-xs font-medium text-sidebar px-2 py-1">
                   Price
                 </button>
@@ -244,7 +245,7 @@ const Trade = () => {
             <div className="w-full  p-4">
               <form>
                 <div className="w-full flex items-center justify-center text-gray-300 gap-3">
-                  <div className="w-1/2 flex flex-col items-start font-DM">
+                  <div className="w-1/2 flex flex-col items-start font-Lato">
                     <label className="text-xs mb-2">Quantity</label>
                     <input
                       type="text"
@@ -256,7 +257,7 @@ const Trade = () => {
                     />
                   </div>
 
-                  <div className="w-1/2 flex flex-col items-start font-DM">
+                  <div className="w-1/2 flex flex-col items-start font-Lato">
                     <label className="text-xs mb-2">Order Type</label>
                     <div
                       onClick={toggleMarket}
@@ -317,7 +318,7 @@ const Trade = () => {
                   </div>
                 )}
 
-                <div className="w-full flex flex-col items-start mt-8 font-DM text-gray-300">
+                <div className="w-full flex flex-col items-start mt-8 font-Lato text-gray-300">
                   <label className="text-xs mb-2">Asset</label>
                   <div className="w-full flex flex-col">
                     <div
@@ -362,16 +363,14 @@ const Trade = () => {
                       {/* DIV FOR THE ICON AND THE TEXT */}
                       <div className="flex items-center gap-1">
                         <Tether variant="Bold" color="#6DDE09" size="16" />
-                        <p className="text-xs text-white font-medium">
-                          USDT
-                        </p>
+                        <p className="text-xs text-white font-medium">USDT</p>
                       </div>
                       {/* THE MAIN INPUT FIELD */}
                     </div>
                   </div>
                 </div>
 
-                <div className="w-full flex flex-col items-start font-DM text-gray-300 mt-8">
+                <div className="w-full flex flex-col items-start font-Lato text-gray-300 mt-8">
                   <label className="text-xs mb-2">Leverage</label>
                   <input
                     type="range"
@@ -384,10 +383,10 @@ const Trade = () => {
                 </div>
               </form>
             </div>
-            <h2 className="mt-9 text-gray-300 text-left w-full px-4 text-xs font-DM mb-1">
+            <h2 className="mt-9 text-gray-300 text-left w-full px-4 text-xs font-Lato mb-1">
               Summary
             </h2>
-            <div className="w-full  border-t-[1px] border-input p-4 flex items-center justify-between gap-6 font-DM">
+            <div className="w-full  border-t-[1px] border-input p-4 flex items-center justify-between gap-6 font-Lato">
               <button
                 className="flex bg-buttongreen flex-1 rounded-full items-center justify-center py-1 gap-2"
                 onClick={placeTradeOrder}
@@ -477,7 +476,7 @@ const Trade = () => {
           <div className="bg-sidebar rounded-[22px] w-full overflow-scroll">
             <div className="w-full p-[2px] flex items-center justify-between">
               {/* THE POSITION AND ORDERS */}
-              <div className="p-4 flex items-center gap-2 justify-between font-DM">
+              <div className="p-4 flex items-center gap-2 justify-between font-Lato">
                 <button
                   onClick={() => {
                     setPositionTwo("position");
@@ -494,7 +493,7 @@ const Trade = () => {
             </div>
 
             {/* THE DIV FOR THE CONTAINER UNDER */}
-            <div className="w-full self-stretch p-4 font-DM">
+            <div className="w-full self-stretch p-4 font-Lato">
               <div className="w-full h-full flex items-end justify-center">
                 <div className="w-full h-[70%] scroll-y">
                   <table className="min-w-full border-gray-200">
@@ -593,7 +592,7 @@ const Trade = () => {
         <div className="w-full border-grad-trade2 flex ">
           <div className="bg-sidebar w-full overflow-hidden">
             {/* THE DIV FOR THE CONTAINER UNDER */}
-            <div className="w-full self-stretch p-4 bg-input mt-8 rounded-tl-[26px] rounded-tr-[26px] font-DM text-gray-300">
+            <div className="w-full self-stretch p-4 bg-input mt-8 rounded-tl-[26px] rounded-tr-[26px] font-Lato text-gray-300">
               <div className="w-full h-full flex items-center justify-between flex-col">
                 {/* THE BUY SELL BUTONS DIV */}
                 <div className="w-full flex items-center rounded overflow-hidden mt-2">
@@ -628,7 +627,7 @@ const Trade = () => {
                     />
                   </div>
 
-                  <div className="w-full flex flex-col items-start font-DM">
+                  <div className="w-full flex flex-col items-start font-Lato">
                     <label className="text-xs mb-2">Order Type</label>
                     <div
                       onClick={toggleMarket}
@@ -709,7 +708,7 @@ const Trade = () => {
                     </div>
                   </div>
 
-                  <div className="w-full flex flex-col items-start mt-8 font-DM text-gray-300 mb-[40px]">
+                  <div className="w-full flex flex-col items-start mt-8 font-Lato text-gray-300 mb-[40px]">
                     <label className="text-xs mb-2">Asset</label>
                     <div className="w-full flex flex-col">
                       <div
