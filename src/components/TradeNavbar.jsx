@@ -11,7 +11,9 @@ const TradeNavbar = () => {
 
   return (
     <div className={`flex flex-row h-[100px] items-center justify-evenly`}>
-      <div className={`flex flex-row items-center text-white space-x-[20px]`}>
+      <div
+        className={`md:flex flex-row items-center text-white space-x-[20px] hidden`}
+      >
         <p className={`cursor-pointer`}>InVest Tutorials</p>
         <p className={`cursor-pointer`}>Blog</p>
         <p className={`cursor-pointer`}>CopyTrade</p>

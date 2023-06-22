@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PrevIcon from "../assets/prev_icon.svg";
 import NextIcon from "../assets/next_icon.svg";
 
@@ -12,6 +12,10 @@ const ContentSlider = () => {
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => prevIndex - 1);
   };
+
+  useEffect(() => {
+    console.log(window.innerWidth);
+  }, [window.innerWidth]);
 
   const content = [
     {
@@ -48,6 +52,22 @@ const ContentSlider = () => {
   ];
 
   const renderContent = () => {
+    const itemsToShow = content.slice(currentIndex, currentIndex + 1);
+
+    return itemsToShow.map((item) => (
+      <div key={item.id} className="w-full border-grad p-[3px] rounded-[24px]">
+        <div
+          className="w-full h-full text-center 
+           rounded-[22px] py-7 px-8 bg-sidebar text-white"
+        >
+          <p className={`font-Mont font-bold text-[28px] mb-5`}>{item.title}</p>
+          <p className={`font-Lato text-[18px]`}>{item.description}</p>
+        </div>
+      </div>
+    ));
+  };
+
+  const renderLargeContent = () => {
     const itemsToShow = content.slice(currentIndex, currentIndex + 2);
 
     return itemsToShow.map((item) => (
@@ -75,8 +95,12 @@ const ContentSlider = () => {
         <img src={PrevIcon} alt="" />
       </button>
 
-      <div className="flex overflow-x-auto gap-4 scrollbar-hide w-full">
+      <div className="flex overflow-x-auto gap-4 scrollbar-hide w-full md:hidden">
         {renderContent()}
+      </div>
+
+      <div className="md:flex overflow-x-auto gap-4 scrollbar-hide w-full hidden">
+        {renderLargeContent()}
       </div>
 
       <button
