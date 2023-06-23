@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PrevIcon from "../assets/prev_icon.svg";
 import NextIcon from "../assets/next_icon.svg";
 
@@ -12,10 +12,6 @@ const ContentSlider = () => {
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => prevIndex - 1);
   };
-
-  useEffect(() => {
-    console.log(window.innerWidth);
-  }, [window.innerWidth]);
 
   const content = [
     {
@@ -52,16 +48,22 @@ const ContentSlider = () => {
   ];
 
   const renderContent = () => {
-    const itemsToShow = content.slice(currentIndex, currentIndex + 1);
+    const itemsToShow = content.slice(currentIndex, currentIndex + 2);
 
     return itemsToShow.map((item) => (
-      <div key={item.id} className="w-full border-grad p-[3px] rounded-[24px]">
+      <div
+        key={item.id}
+        className="w-full h-[200px] overflow-y-hidden 
+        border-grad p-[3px] rounded-[24px]"
+      >
         <div
-          className="w-full h-full text-center 
-           rounded-[22px] py-7 px-8 bg-sidebar text-white"
+          className="w-full h-full overflow-y-scroll text-center 
+           rounded-[22px] p-2 bg-sidebar text-white"
         >
-          <p className={`font-Mont font-bold text-[28px] mb-5`}>{item.title}</p>
-          <p className={`font-Lato text-[18px]`}>{item.description}</p>
+          <p className={`font-Mont font-bold md:text-[28px] mb-5`}>
+            {item.title}
+          </p>
+          <p className={`font-Lato md:text-[18px]`}>{item.description}</p>
         </div>
       </div>
     ));
