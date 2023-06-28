@@ -17,7 +17,7 @@ const Dashboard = () => {
         className={`fixed z-20 ${
           openNav === true ? "left-0" : "-left-[250px] lg:left-0"
         } transition 
-      duration-200 top-0 w-[250px] lg:relative lg:w-[18%] h-full`}
+      duration-200 top-0 w-[150px] lg:relative lg:w-[10%] h-full`}
       >
         <Sidebar
           toggleSideBar={toggleSideBar}
@@ -28,7 +28,7 @@ const Dashboard = () => {
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="w-full  lg:w-[82%] h-full">
+      <div className="w-full lg:w-[90%] h-full">
         <Render page={page} setPage={setPage} />
       </div>
     </div>

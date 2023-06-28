@@ -12,21 +12,22 @@ const Navbar = ({ page }) => {
     wallet && `${wallet.slice(0, 9)}...${wallet.slice(-2)}`;
   return (
     <div className="w-full py-6 flex items-center justify-between">
-      <h2 className="text-white text-sm lg:text-[24px] font-medium flex-1">
-        {page}
-      </h2>
-      <div className="flex items-center gap-4 ">
+      <h2 className="text-white text-sm lg:text-[24px] font-medium">{page}</h2>
+      <div
+        className={`hidden md:flex flex-row items-center text-white space-x-[20px]`}
+      >
+        <p className={`cursor-pointer`}>InVest Tutorials</p>
+        <p className={`cursor-pointer`}>Blog</p>
+        {page === "Home" ? null : <p className={`cursor-pointer`}>CopyTrade</p>}
+        <p className={`cursor-pointer`}>Leaderboard</p>
+        <p className={`cursor-pointer`}>Stake IT</p>
+      </div>
+      <div className="flex items-center gap-4">
         {/* BUTTON WITH GRADIENT BORDER */}
         <div
           className="w-[160px] p-[2px] rounded-full cursor-pointer"
           // onClick={openModal}
         >
-          {/* <p
-            className="w-full h-full text-sm bg-sidebar rounded-full text-white 
-          font-bold px-4 py-1"
-          >
-            {truncatedWallet ? truncatedWallet : "Connect wallet"}
-          </p> */}
           <Web3Button />
         </div>
         <div className="h-[60px] w-[60px] object-contain cursor-pointer">

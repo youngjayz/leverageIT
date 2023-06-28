@@ -1,28 +1,43 @@
-import React, { useEffect, useState } from "react";
-import PrevIcon from "../assets/prev_icon.svg";
+import React, { useEffect, useRef, useState } from "react";
 import NextIcon from "../assets/next_icon.svg";
+import PrevIcon from "../assets/prev_icon.svg";
 
 const ContentSlider = () => {
+  const carouselRef = useRef();
+
   const [currentIndex, setCurrentIndex] = useState(0);
+  const timeoutDuration = useRef(15000);
+  const [isVideo, setIsVideo] = useState(false);
+
+  const autoPlay = useRef(true);
+
+  const resetSlide = () => {
+    carouselRef.current?.scroll({ left: 0 });
+    setCurrentIndex(0);
+    timeoutDuration.current = 15000;
+  };
 
   const nextSlide = () => {
+    carouselRef.current?.scroll({
+      left: carouselRef.current?.scrollLeft + carouselRef.current?.clientWidth,
+    });
     setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
   const prevSlide = () => {
+    carouselRef.current?.scroll({
+      left: carouselRef.current?.scrollLeft - carouselRef.current?.clientWidth,
+    });
     setCurrentIndex((prevIndex) => prevIndex - 1);
   };
 
-  useEffect(() => {
-    console.log(window.innerWidth);
-  }, [window.innerWidth]);
-
   const content = [
+    { id: 0, isVideo: true, videoURL: "video.mp4" },
     {
       id: 1,
       title: "Social Trading",
       description:
-        "Social trading: Replicate successful traders, learn from a collaborative community, and improve investment performance in a transparent environment.",
+        "Social trading: Replicate successful traders, learn from a collaborative community, and improve investment performance in a transparent environment. Sharing financial insights and strategies for collective gains.",
     },
     {
       id: 2,
@@ -34,7 +49,7 @@ const ContentSlider = () => {
       id: 3,
       title: "Earn by copy trading",
       description:
-        "Earn by copy trading: Profit by mirroring successful traders, leveraging expertise for potential investment gains.",
+        "Earn by copy trading: Profit by mirroring successful traders, leveraging expertise for potential investment gains. Profit by mirroring successful traders' strategies.",
     },
     {
       id: 4,
@@ -51,64 +66,110 @@ const ContentSlider = () => {
     // Add more content items as needed
   ];
 
-  const renderContent = () => {
-    const itemsToShow = content.slice(currentIndex, currentIndex + 1);
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      console.log("timout");
+      if (autoPlay.current) {
+        console.log("autplay");
+        if (
+          Math.ceil(
+            carouselRef?.current?.scrollLeft + carouselRef?.current?.clientWidth
+          ) < carouselRef?.current?.scrollWidth
+        ) {
+          console.log("next");
+          nextSlide();
+          timeoutDuration.current = 5000;
+        } else {
+          resetSlide();
+        }
+      }
+    }, timeoutDuration.current);
+    if (currentIndex === 0) {
+      setIsVideo(true);
+    } else {
+      setIsVideo(false);
+    }
+    console.log("Current index:::", currentIndex, "is Video:::", isVideo);
 
-    return itemsToShow.map((item) => (
-      <div key={item.id} className="w-full border-grad p-[3px] rounded-[24px]">
-        <div
-          className="w-full h-full text-center 
-           rounded-[22px] py-7 px-8 bg-sidebar text-white"
-        >
-          <p className={`font-Mont font-bold text-[28px] mb-5`}>{item.title}</p>
-          <p className={`font-Lato text-[18px]`}>{item.description}</p>
-        </div>
-      </div>
-    ));
-  };
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [currentIndex]);
 
   const renderLargeContent = () => {
-    const itemsToShow = content.slice(currentIndex, currentIndex + 2);
+    const itemsToShow = content;
 
     return itemsToShow.map((item) => (
-      <div key={item.id} className="w-full border-grad p-[3px] rounded-[24px]">
+      <div className="flex-none flex-shrink-0 w-full md:w-1/2 p-2">
         <div
-          className="w-full h-full text-center 
-           rounded-[22px] py-7 px-8 bg-sidebar text-white"
+          key={item.id}
+          className="w-full h-[250px] md:h-full border-grad p-[3px] rounded-[24px]"
         >
-          <p className={`font-Mont font-bold text-[28px] mb-5`}>{item.title}</p>
-          <p className={`font-Lato text-[18px]`}>{item.description}</p>
+          {item.isVideo ? (
+            <div
+              className={`w-full h-full text-center rounded-[22px] 
+             bg-sidebar text-white`}
+            >
+              <img
+                src="/video.gif"
+                alt=""
+                className={`rounded-[22px] h-full`}
+              />
+            </div>
+          ) : (
+            <div
+              className="w-full h-full text-center rounded-[22px] 
+            py-7 px-8 bg-sidebar text-white overflow-y-scroll md:overflow-y-hidden"
+            >
+              <p className={`font-Mont font-bold text-[28px] mb-5`}>
+                {item.title}
+              </p>
+              <p className={`font-Lato text-[18px]`}>{item.description}</p>
+            </div>
+          )}
         </div>
       </div>
     ));
   };
 
+  const cannotGoNext =
+    Math.ceil(
+      carouselRef?.current?.scrollLeft + carouselRef?.current?.clientWidth
+    ) === carouselRef?.current?.scrollWidth;
+
+  const cannotGoPrev = Math.ceil(carouselRef?.current?.scrollLeft) === 0;
+
   return (
-    <div className="mx-auto p-4 flex items-center w-full">
+    <div className="mx-auto md:p-4 flex items-center w-full mb-[20px]">
       <button
         className={`p-2 bg-transparent text-white rounded ${
-          currentIndex === 0 && "opacity-50 cursor-not-allowed"
+          cannotGoPrev && "opacity-50 cursor-not-allowed"
         }`}
-        onClick={prevSlide}
-        disabled={currentIndex === 0}
+        onClick={() => {
+          autoPlay.current = false;
+          prevSlide();
+        }}
+        disabled={cannotGoPrev}
       >
         <img src={PrevIcon} alt="" />
       </button>
 
-      <div className="flex overflow-x-auto gap-4 scrollbar-hide w-full md:hidden">
-        {renderContent()}
-      </div>
-
-      <div className="md:flex overflow-x-auto gap-4 scrollbar-hide w-full hidden">
+      <div
+        ref={carouselRef}
+        className="flex items-center overflow-x-auto scrollbar-hide w-full"
+      >
         {renderLargeContent()}
       </div>
 
       <button
         className={`p-2 bg-transparent text-white rounded ${
-          currentIndex >= content.length - 2 && "opacity-50 cursor-not-allowed"
+          cannotGoNext && "opacity-50 cursor-not-allowed"
         }`}
-        onClick={nextSlide}
-        disabled={currentIndex >= content.length - 2}
+        onClick={() => {
+          autoPlay.current = false;
+          nextSlide();
+        }}
+        disabled={cannotGoNext}
       >
         <img src={NextIcon} alt="" />
       </button>

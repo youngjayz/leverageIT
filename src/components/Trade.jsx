@@ -90,7 +90,10 @@ const Trade = () => {
     try {
       console.log("Getting positions...");
       const res = await axios.get(`${API_URL}/api/v1/positions`);
-      console.log("Positions data:::", res.data);
+      console.log(
+        "Positions data:::",
+        res.data.filter((data) => parseInt(data.positionAmt) !== 0)
+      );
       setPositionData(res.data);
     } catch (err) {
       console.log(err.message);
@@ -126,6 +129,7 @@ const Trade = () => {
   const [successModal, setSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [price, setPrice] = useState(0);
+  const [closing, setClosing] = useState({});
 
   const placeTradeOrder = async () => {
     setTradeLoad(true);
@@ -167,6 +171,48 @@ const Trade = () => {
         console.log(err.message);
         setTradeLoad(false);
       }
+    }
+  };
+
+  const closeTrade = async (quantity, symbol, leverage) => {
+    setClosing((prevState) => ({
+      ...prevState,
+      [symbol]: true,
+    }));
+    const data = {
+      leverage: leverage,
+      symbol: symbol,
+      side: quantity > 0 ? "SELL" : "BUY",
+      type: "MARKET",
+      quantity: Math.abs(quantity),
+      price: Number(price),
+    };
+
+    try {
+      await axios.post(`${API_URL}/api/v1/order`, data).then((res) => {
+        console.log("Order res:::", res.data);
+        if (res.status === 200 || res.status === 201) {
+          setClosing((prevState) => ({
+            ...prevState,
+            [symbol]: false,
+          }));
+          console.log("Closing status:::", res.data.status_code);
+          if (res.data.status_code >= 400) {
+            setErrorMessage(res.data.detail);
+          } else {
+            setSuccessModal(true);
+            getCurrentPositions();
+          }
+        } else {
+          alert("Something went wrong. Can't start order.");
+          setClosing((prevState) => ({
+            ...prevState,
+            [symbol]: false,
+          }));
+        }
+      });
+    } catch (err) {
+      console.log(err.message);
     }
   };
 
@@ -566,6 +612,23 @@ const Trade = () => {
                                           100
                                         ).toFixed(2)}
                                         %
+                                      </span>
+                                    </td>
+                                    <td className="py-4 px-6 whitespace-nowrap">
+                                      <span
+                                        className="text-sm text-white bg-red p-3 
+                                      cursor-pointer rounded-md font-Lato"
+                                        onClick={() =>
+                                          closeTrade(
+                                            parseInt(data.positionAmt),
+                                            data.symbol,
+                                            data.leverage
+                                          )
+                                        }
+                                      >
+                                        {closing[data.symbol]
+                                          ? "Closing..."
+                                          : "Close Trade"}
                                       </span>
                                     </td>
                                   </tr>

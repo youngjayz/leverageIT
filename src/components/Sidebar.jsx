@@ -4,10 +4,14 @@ import { styles } from "../styles";
 import { coins } from "../data";
 import { GlobalContext } from "../context";
 import { ArrowLeft2, ArrowRight2, SearchNormal1 } from "iconsax-react";
+import Logo from "../assets/logo.png";
 
 const SidebarSwitch = ({ openNav }) => {
   return (
-    <div className="bg-sidebarDark cursor-pointer w-8 h-14 rounded-tr-[8px] flex items-center justify-center rounded-br-[8px] border border-inputText">
+    <div
+      className="bg-sidebarDark cursor-pointer w-8 h-14 rounded-tr-[8px] 
+    flex items-center justify-center rounded-br-[8px] border border-inputText"
+    >
       {openNav === true ? (
         <ArrowLeft2 color="#aaa" size="20" />
       ) : (
@@ -37,11 +41,20 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
 
   return (
     <div
-      className="w-full h-full relative bg-sidebar pt-[50%] pb-[30%] flex flex-col gap-4 border-r
+      className="w-[full] h-full relative bg-sidebar pt-[20px] 
+      pb-[30%] flex flex-col gap-4 border-r
      border-inputText text-sidebarText font-Lato scroll-yy"
     >
-      <div onClick={toggleSideBar} className="absolute z-30 left-[100%] top-20">
+      <div
+        onClick={toggleSideBar}
+        className={`absolute z-30 md:left-[100%] ${
+          openNav ? "left-[150px]" : "left-[250px]"
+        } top-20`}
+      >
         <SidebarSwitch openNav={openNav} />
+      </div>
+      <div className={`flex justify-center pb-[60px]`}>
+        <img src={Logo} alt="" className={`w-[200px]`} />
       </div>
       <p
         onClick={() => {
@@ -73,19 +86,11 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
           }
         >
           <div className="w-[88%] mx-auto mt-4">
-            <div className="w-full bg-input rounded-full flex items-center px-2 py-1 mb-4">
-              <SearchNormal1 color="#424242" className="w-[18px]" />
-              <input
-                type="text"
-                placeholder="Search Markets"
-                className="text-sm text-inputText px-2 py-1 placeholder:text-sm placeholder:text-inputPh focus:border-none focus:outline-none"
-              />
-            </div>
-
             {coins &&
               coins.map((item) => (
                 <div
-                  className="w-full flex items-center hover:bg-input rounded-xl gap-2 p-2 cursor-pointer"
+                  className="w-full flex items-center 
+                  hover:bg-input rounded-xl gap-2 p-2 cursor-pointer"
                   onClick={() => setSymbol(item.symbol)}
                 >
                   <div
@@ -124,7 +129,8 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
         }`}
       >
         {/* Stake */}
-        Trade Stocks <span className="text-[12px]">Coming Soon</span>
+        Trade Stocks
+        <br /> <span className="text-[12px]">Coming Soon</span>
       </p>
       <p
         onClick={() => {
@@ -135,7 +141,8 @@ const Sidebar = ({ setPage, toggleSideBar, openNav }) => {
         }`}
       >
         {/* Stake */}
-        Copytrading <span className="text-[12px]">Coming Soon</span>
+        Copytrading
+        <br /> <span className="text-[12px]">Coming Soon</span>
       </p>
 
       <p
